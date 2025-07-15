@@ -37,7 +37,7 @@ def consume_stream_detect_patterns():
     detection_buffer_df = pd.DataFrame()
 
     while True:
-        s3_key = f"{prefix}/chunk_{expected_chunk}.csv"
+        s3_key = f"{prefix}/chunk_{expected_chunk * CHUNK_SIZE}.csv"
 
         try:
             # Step 1: Read chunk from S3
@@ -74,7 +74,7 @@ def consume_stream_detect_patterns():
                 print(f"✅ Wrote detection batch: {detection_key}")
                 detection_file_index += 1
 
-            expected_chunk += CHUNK_SIZE  # If using i as 0, 100, 200, keep this as 100
+            expected_chunk += 1 
 
         except s3.exceptions.NoSuchKey:
             # Optional: Check if this is likely the final chunk
